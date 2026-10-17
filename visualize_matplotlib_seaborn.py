@@ -1,34 +1,34 @@
 import requests
+import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
+# Ask for the key when the script runs (never write it in the code)
+api_key = input("Enter your WeatherAPI key: ").strip()
 
-api_key = "7099bcf686a8453bb85164629250612"  
-city = "New York"                   
+cities = ["New York", "London", "Chennai", "Tokyo", "Sydney"]
+url = "https://api.weatherapi.com/v1/current.json"
 
-url = "http://api.weatherapi.com/v1/current.json"
-params = {
-    "key": api_key,
-    "q": city
-}
+records = []
+for city in cities:
+    try:
+        response = requests.get(url, params={"key": api_key, "q": city}, timeout=10)
+        if response.status_code == 200:
+            temp = response.json()["current"]["temp_c"]
+            records.append({"City": city, "Temperature (°C)": temp})
+            print(f"{city}: {temp}°C")
+        else:
+            print(f"Error for {city}: {response.status_code} {response.text}")
+    except requests.RequestException as e:
+        print(f"Request failed for {city}: {e}")
 
-try:
-    response = requests.get(url, params=params)
-    print("Status code:", response.status_code)
-    
-    if response.status_code == 200:
-        data = response.json()
-        temp = data['current']['temp_c']
-        print(f"Current temperature in {city}: {temp}°C")
-        
-        
-        plt.bar(city, temp, color="skyblue")
-        plt.title(f"Current Temperature in {city}")
-        plt.ylabel("Temperature (°C)")
-        plt.text(0, temp + 0.5, f"{temp:.1f}°C", ha='center')
-        plt.show()
-        
-    else:
-        print("Error fetching data. Response text:", response.text)
-        
-except Exception as e:
-    print("Request failed:", e)
+if records:
+    df = pd.DataFrame(records)
+
+    plt.figure(figsize=(8, 5))
+    ax = sns.barplot(data=df, x="City", y="Temperature (°C)", color="skyblue")
+    ax.bar_label(ax.containers[0], fmt="%.1f°C")
+    plt.title("Current Temperature by City")
+    plt.tight_layout()
+    plt.savefig("weather_chart.png")
+    plt.show()
