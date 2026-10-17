@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Ask for the key when the script runs (never write it in the code)
-api_key = input("Enter your WeatherAPI key: ").strip()
+api_key = input("Enter your WeatherAPI key:ba052b7b42c14fae972123936261710 ").strip()
 
 cities = ["New York", "London", "Chennai", "Tokyo", "Sydney"]
 url = "https://api.weatherapi.com/v1/current.json"
