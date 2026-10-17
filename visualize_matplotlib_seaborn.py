@@ -5,9 +5,10 @@ import seaborn as sns
 
 # Ask for the key when the script runs (never write it in the code)
 api_key = input("Enter your WeatherAPI key:ba052b7b42c14fae972123936261710 ").strip()
+print()  # blank line, so the key isn't next to the output in screenshots
 
 cities = ["New York", "London", "Chennai", "Tokyo", "Sydney"]
-url = "https://api.weatherapi.com/v1/current.json"
+url = "http://api.weatherapi.com/v1/current.json"
 
 records = []
 for city in cities:
@@ -18,7 +19,7 @@ for city in cities:
             records.append({"City": city, "Temperature (°C)": temp})
             print(f"{city}: {temp}°C")
         else:
-            print(f"Error for {city}: {response.status_code} {response.text}")
+            print(f"Error for {city}: {response.status_code} {response.text[:150]}")
     except requests.RequestException as e:
         print(f"Request failed for {city}: {e}")
 
