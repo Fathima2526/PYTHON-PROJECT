@@ -1,4 +1,4 @@
-Python Projects – Data Science, Machine Learning & Automation
+#Python Projects – Data Science, Machine Learning & Automation
 
 A collection of Python projects developed to explore practical applications of data analysis, data visualization, machine learning, chatbot development, and task automation.
 
